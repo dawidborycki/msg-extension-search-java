@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: db.teamsext.search.ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.238 s - in db.teamsext.search.ApplicationTests
