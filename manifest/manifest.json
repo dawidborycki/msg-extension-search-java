@@ -1,0 +1,85 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.11",
+    "version": "1.0.0",
+    "id": "a4528527-db93-4c81-baf0-0ec57104dc05",
+    "packageName": "db.teams.msgextensionsearch",
+    "developer": {
+      "name": "Contoso, Inc.",
+      "websiteUrl": "https://www.teams.com",
+      "privacyUrl": "https://example.azurewebsites.net",
+      "termsOfUseUrl": "https://example.azurewebsites.net"
+    },
+    "icons": {
+      "color": "color.png",
+      "outline": "outline.png"
+    },
+    "name": {
+      "short": "msg-extension-search",
+      "full": "Messaging Extension Search"
+    },
+    "description": {
+      "short": "Messaging Extension Search",
+      "full": "Messaging Extension Search"
+    },
+    "accentColor": "#FFFFFF",
+    "staticTabs": [
+      {
+        "entityId": "conversations",
+        "scopes": [
+          "personal"
+        ]
+      },
+      {
+        "entityId": "about",
+        "scopes": [
+          "personal"
+        ]
+      }
+    ],
+    "bots": [
+      {
+        "botId": "e255a2af-a6a8-4edd-90d2-a34b9e42ce86",
+        "scopes": [
+          "personal",
+          "team",
+          "groupchat"
+        ],
+        "supportsFiles": false,
+        "isNotificationOnly": false
+      }
+    ],
+    "composeExtensions": [
+      {
+        "botId": "e255a2af-a6a8-4edd-90d2-a34b9e42ce86",
+        "canUpdateConfiguration": true,
+        "commands": [
+          {
+            "id": "searchQuery",
+            "type": "query",
+            "title": "Search",
+            "description": "",
+            "initialRun": true,
+            "fetchTask": false,
+            "context": [
+              "commandBox",
+              "compose"
+            ],
+            "parameters": [
+              {
+                "name": "searchQuery",
+                "title": "Search Query",
+                "description": "Your search query",
+                "inputType": "text"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "permissions": [
+      "identity",
+      "messageTeamMembers"
+    ],
+    "validDomains": []
+  }
