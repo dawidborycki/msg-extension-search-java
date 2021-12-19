@@ -55,59 +55,60 @@ public class EchoBot extends TeamsActivityHandler {
             .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 
-//    @Override
-//    protected CompletableFuture<MessagingExtensionResponse> onTeamsMessagingExtensionQuery(
-//            TurnContext turnContext,
-//            MessagingExtensionQuery query
-//    ) {
-//        // Get query text
-//        String queryText = "Empty query";
-//        if (query != null && query.getParameters() != null) {
-//            List<MessagingExtensionParameter> queryParams = query.getParameters();
-//            if (!queryParams.isEmpty()) {
-//                queryText = (String) queryParams.get(0).getValue();
-//            }
-//        }
-//
-//        CardAction cardAction = new CardAction();
-//        cardAction.setType(ActionTypes.INVOKE);
-//        ThumbnailCard previewCard = new ThumbnailCard();
-//        previewCard.setTitle(queryText);
-//        previewCard.setTap(cardAction);
-//
-//        HeroCard heroCard = new HeroCard();
-//        heroCard.setTitle(queryText);
-//
-//        MessagingExtensionAttachment attachment = new MessagingExtensionAttachment();
-//
-//        List<MessagingExtensionAttachment> attachments = new ArrayList<>();
-//        attachment.setContentType(HeroCard.CONTENTTYPE);
-//        attachment.setContent(heroCard);
-//        attachment.setPreview(previewCard.toAttachment());
-//        attachments.add(attachment);
-//
-//        MessagingExtensionResult composeExtension = new MessagingExtensionResult();
-//        composeExtension.setType("result");
-//        composeExtension.setAttachmentLayout("list");
-//        composeExtension.setAttachments(attachments);
-//
-//        // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult
-//        // wrapped in a MessagingExtensionResponse.
-//        return CompletableFuture.completedFuture(new MessagingExtensionResponse(composeExtension));
-//    }
+    private String GetQueryText(MessagingExtensionQuery query) {
+        String queryText = "Empty query";
+
+        if (query != null && query.getParameters() != null) {
+            List<MessagingExtensionParameter> queryParams = query.getParameters();
+
+            if (!queryParams.isEmpty()) {
+                MessagingExtensionParameter firstParam = queryParams.get(0);
+
+                if(firstParam.getName().equals("searchQuery")) {
+                    queryText = (String) queryParams.get(0).getValue();
+                }
+            }
+        }
+        
+        return queryText;
+    }
+    
+    // @Override
+    // protected CompletableFuture<MessagingExtensionResponse> onTeamsMessagingExtensionQuery(
+    //         TurnContext turnContext,
+    //         MessagingExtensionQuery query
+    // ) {
+    //     // Get query text
+    //     String queryText = GetQueryText(query);
+        
+    //     // Create a hero card
+    //     HeroCard card = new HeroCard();
+    //     card.setTitle("Echo");
+    //     card.setSubtitle(queryText);
+    //     card.setText("This sample is a sample hero card");
+
+    //     // Create attachment
+    //     MessagingExtensionAttachment attachment = new MessagingExtensionAttachment();
+    //     attachment.setContent(card);
+    //     attachment.setContentType(HeroCard.CONTENTTYPE);
+    //     attachment.setPreview(card.toAttachment());
+
+    //     // Prepare result
+    //     MessagingExtensionResult result = new MessagingExtensionResult();
+    //     result.setAttachmentLayout("list");
+    //     result.setType("result");
+    //     result.setAttachment(attachment);
+
+    //     // Return the response
+    //     return CompletableFuture.completedFuture(new MessagingExtensionResponse(result));       
+    // }
 
     @Override
     protected CompletableFuture<MessagingExtensionResponse> onTeamsMessagingExtensionQuery(
             TurnContext turnContext,
             MessagingExtensionQuery query
     ) {
-        String text = "";
-        if (query != null && query.getParameters() != null) {
-            List<MessagingExtensionParameter> queryParams = query.getParameters();
-            if (!queryParams.isEmpty()) {
-                text = (String) queryParams.get(0).getValue();
-            }
-        }
+        String text = GetQueryText(query);
 
         return findPackages(text)
                 .thenApply(packages -> {
